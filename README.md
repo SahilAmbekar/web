@@ -1,2 +1,2 @@
 # web
-all web technologys
+all web technologies
