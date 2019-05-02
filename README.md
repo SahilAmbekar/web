@@ -1,2 +1,3 @@
 # web
-all web technologies
+hehe web
+so technology
