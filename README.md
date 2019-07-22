@@ -16,5 +16,9 @@ goto bottom and click change page to go to next page;
 
 
 
+NOTE: please don't enter long movie names
+
+Suggested: batman, end gmae, etc.
+
 
 thankyou
