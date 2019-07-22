@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link type="text/css" rel="stylesheet" href="style.css" />
+    <script src="script.js"></script>
+    <title>Movies Library</title>
+  </head>
+  <body>
+    <div id="container">
+      <div class="header">
+        <h1>Movies Library</h1>
+      </div>
+      <div class="section1">
+        <button
+          class="editBtn"
+          onclick="searchMovie(document.getElementById('mName').value)"
+        >
+          Search
+        </button>
+        <input id="mName" type="text" placeholder="Search Here" />
+      </div>
+      <div class="container">
+        <div id="page1">
+          <div id="output" class="output">
+          </div>
+        </div>
+        <div id="page2">
+          <div id="output2" class="output"></div>
+        </div>
+      </div>
+    </div>
+    <div class="pageButtons">
+      <button class="editBtn" onclick="nextPage()">Change Page</button>
+    </div>
+    <!-- <div style="position: absolute;"> -->
+    <div id="editDetails" style="display: none;">
+      <a onclick="closeEdit()" class="close">X</a><br /><br /><br />
+      <input
+        id="input1"
+        type="text"
+        class="editInput"
+        placeholder="Enter Movie Title"
+      /><br />
+      <input
+        id="input2"
+        type="text"
+        class="editInput"
+        placeholder="Enter Release Data"
+      /><br />
+      <button
+        class="editBtn"
+        onclick="addSubmit()"
+      >
+        Submit
+      </button>
+      <!-- </div> -->
+    </div>
+    <div class="footer">
+      <div class="footerContext">
+        <p class="text1">Developed by SAHIL AMBEKAR</p>
+        <p class="text2">BE(2019)</p>
+      </div>
+    </div>
+  </body>
+</html>
