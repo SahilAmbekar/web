@@ -8,6 +8,17 @@ html body {
 ::-webkit-scrollbar {
   width: 0px;
 }
+/* MEDIA QUERY FOR BREAKDOWN AT 400px */
+@media screen and (max-width: 400px) {
+  .section1 > .editBtn {
+    float: left;
+    width: 60px;
+    height: 32px;
+  }
+  #mName {
+    float: left !important;
+  }
+}
 /* FOOTER */
 .footer {
   background-color: rgb(36, 36, 36);
