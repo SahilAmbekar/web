@@ -1,9 +1,9 @@
 const APIKEY = "e9069302849505b59e7558af585d1ff4";
 console.log("APIKEY:", APIKEY);
 let baseURL = "https://api.themoviedb.org/3/";
-let moviesArray;
+let moviesArray = [];
 let editIndex;
-
+var count = 0;
 // THIS FUNCTION WILL BE CALLED  VIEW IS INITIATED
 let runSearch = function() {
   urrls =
@@ -15,59 +15,38 @@ let runSearch = function() {
     .then(function(data) {
       console.log("ORIGNAL JSON DATA", data);
       moviesArray = data;
-      showMovies(data);
+      showMovies(moviesArray, "output", 10, 20);
     })
     .catch(function(err) {
       alert("Problem Occured while fetching!!", err);
     });
 };
 // TO SHOW FIRST PAGE
-function showMovies(data) {
-  var x = document.getElementById("page1");
-  var y = document.getElementById("page2");
-  if (x.style.display === "none") {
-    x.style.display = "block";
-    y.style.display = "none";
-  }
+function showMovies(data, onDiv, from, to) {
   var display = [];
-  for (i = 10; i < 20; i++) {
+  for (i = from; i < to; i++) {
     display += `<div class="movieBox">
         <img
           class="movieImg"
           src="https://image.tmdb.org/t/p/w154/${data.results[i].poster_path}"
           alt="${data.results[i].title}"
         /><div class="middle">
-              <button class="editBtn" onclick="edit(${i})">EDIT</button>
+              <button class="editBtn" onclick="editMovie(${i})">EDIT</button>
+              <button class="editBtn" onclick="deleteMovie(${i})">DELETE</button>
             </div>
         <p class="movieName">${data.results[i].title}</p>
         <p class="movieYear">${data.results[i].release_date}</p>
       </div>`;
   }
-  document.getElementById("output").innerHTML = display;
+  document.getElementById(`${onDiv}`).innerHTML = display;
 }
 // SECOND PAGE DISPLAY
 function nextPage() {
   window.scrollTo(0, 0);
   switchViews();
-  var display = [];
-  for (i = 0; i < 10; i++) {
-    display += `<div class="movieBox">
-        <img
-          class="movieImg"
-          src="https://image.tmdb.org/t/p/w154/${
-            moviesArray.results[i].poster_path
-          }"
-          alt="${moviesArray.results[i].title}"
-        /><div class="middle">
-              <button class="editBtn" onclick="edit(${i})">EDIT</button>
-            </div>
-        <p class="movieName">${moviesArray.results[i].title}</p>
-        <p class="movieYear">${moviesArray.results[i].release_date}</p>
-      </div>`;
-  }
-  document.getElementById("output2").innerHTML = display;
+  showMovies(moviesArray, "output2", 0, 10);
 }
-// FOR SWITCHING VIEWS
+// FOR SWITCHING BETWEEN PAGES
 function switchViews() {
   var x = document.getElementById("page1");
   var y = document.getElementById("page2");
@@ -79,8 +58,7 @@ function switchViews() {
     y.style.display = "block";
   }
 }
-
-// SEARCH MOVIES
+// FOR SEARCHING MOVIES
 function searchMovie(mName) {
   window.scrollTo(0, 0);
   let url = "".concat(
@@ -103,29 +81,14 @@ function searchMovie(mName) {
     .then(function(data) {
       console.log("ORIGNAL JSON DATA", data);
       moviesArray = data;
-      var display = [];
-
-      for (i = 0; i < 10; i++) {
-        display += `<div class="movieBox">
-        <img
-          class="movieImg"
-          src="https://image.tmdb.org/t/p/w154/${data.results[i].poster_path}"
-          alt="${data.results[i].title}"
-        /><div class="middle">
-              <button class="editBtn" onclick="edit(${i})">EDIT</button>
-            </div>
-        <p class="movieName">${data.results[i].title}</p>
-        <p class="movieYear">${data.results[i].release_date}</p>
-      </div>`;
-      }
-      document.getElementById("output").innerHTML = display;
+      showMovies(moviesArray, "output", 10, 20);
     })
     .catch(function(err) {
       alert("please enter Movie Name Correctly!!", err);
     });
 }
-// EDIT SECTION
-function edit(i) {
+// TO EDIT THE MOVIES TITLE AND DATE
+function editMovie(i) {
   editIndex = i;
   window.scrollTo(0, 0);
   var a = document.getElementById("container");
@@ -139,13 +102,28 @@ function closeEdit() {
   a.classList.remove("blurContainer");
   b.classList.remove("editaible");
 }
-function addSubmit(x, y) {
+function editSubmit(x, y) {
   var x = document.getElementById("input1").value;
   var y = document.getElementById("input2").value;
-  console.log(x, y);
   moviesArray.results[editIndex].title = x;
   moviesArray.results[editIndex].release_date = y;
-  console.log(moviesArray);
-  showMovies(moviesArray);
+  document.getElementById("input1").value = "";
+  document.getElementById("input2").value = "";
+  closeEdit();
+  if (editIndex < 10) {
+    showMovies(moviesArray, "output2", 0, 10 - count);
+  } else {
+    showMovies(moviesArray, "output", 10, 20 - count);
+  }
+}
+// FOR MOVIE DELETION
+function deleteMovie(i) {
+  moviesArray.results.splice(i, 1);
+  count = count + 1;
+  if (editIndex < 10) {
+    showMovies(moviesArray, "output2", 0, 10 - count);
+  } else {
+    showMovies(moviesArray, "output", 10, 20 - count);
+  }
 }
 document.addEventListener("DOMContentLoaded", runSearch);
